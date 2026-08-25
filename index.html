@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AOL Time Warner Combined Service Front-Door Portal - The unified digital gateway to AOL, CNN, HBO, Warner Bros., Time Magazine, and Turner Broadcasting properties.">
+  <title>AOL Time Warner — Welcome</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tahoma&family=Verdana&family=Arial:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- GLOBAL HEADER — AOL BACKBONE / UNIVERSAL ACCESS LAYER             -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <header id="global-header">
+    <div class="header-top-bar">
+      <div class="header-left">
+        <div id="aol-logo" class="logo-container">
+          <div class="logo-triangle"></div>
+          <span class="logo-text">AOL</span>
+          <span class="logo-divider">|</span>
+          <span class="logo-sub">TIME WARNER</span>
+        </div>
+        <div id="connection-status" class="conn-status">
+          <span class="conn-icon pulse"></span>
+          <span class="conn-label">Connected — 56k Dial-Up</span>
+          <button id="conn-toggle" class="conn-btn" title="Switch connection type">▾</button>
+          <div id="conn-dropdown" class="conn-dropdown hidden">
+            <div class="conn-option active" data-speed="56k">56k Dial-Up</div>
+            <div class="conn-option" data-speed="cable">Road Runner Cable</div>
+          </div>
+        </div>
+      </div>
+      <div class="header-center">
+        <form id="search-form" class="search-bar">
+          <label for="search-input" class="sr-only">Search AOL</label>
+          <select id="search-scope" class="search-scope" title="Search scope">
+            <option value="web">The Web</option>
+            <option value="aol">AOL</option>
+            <option value="cnn">CNN</option>
+            <option value="time">TIME</option>
+          </select>
+          <input type="text" id="search-input" class="search-input" placeholder="AOL Search" autocomplete="off">
+          <button type="submit" id="search-btn" class="search-btn">Search</button>
+          <span class="search-keyword">Keyword: <strong>AOL TimeWarner</strong></span>
+        </form>
+      </div>
+      <div class="header-right">
+        <div id="user-account" class="user-area">
+          <div class="user-avatar">
+            <div class="avatar-icon">👤</div>
+          </div>
+          <div class="user-info">
+            <span class="user-greeting">Welcome,</span>
+            <span class="user-screenname" id="user-screenname">SurfDude2001</span>
+          </div>
+          <div class="header-actions">
+            <button class="header-action-btn" id="btn-mail" title="You've Got Mail!">
+              <span class="action-icon">✉</span>
+              <span class="action-label">Mail</span>
+              <span class="badge" id="mail-badge">3</span>
+            </button>
+            <button class="header-action-btn" id="btn-favorites" title="Favorites">
+              <span class="action-icon">❤</span>
+              <span class="action-label">Favorites</span>
+            </button>
+            <button class="header-action-btn" id="btn-myaol" title="My AOL">
+              <span class="action-icon">🏠</span>
+              <span class="action-label">My AOL</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub-Navigation — Channel Links -->
+    <nav id="channel-nav" class="channel-nav" aria-label="Main navigation">
+      <ul class="channel-list">
+        <li><a href="#" class="channel-link active" data-channel="home">Home</a></li>
+        <li><a href="#" class="channel-link" data-channel="news">News</a></li>
+        <li><a href="#" class="channel-link" data-channel="entertainment">Entertainment</a></li>
+        <li><a href="#" class="channel-link" data-channel="sports">Sports</a></li>
+        <li><a href="#" class="channel-link" data-channel="money">Money</a></li>
+        <li><a href="#" class="channel-link" data-channel="travel">Travel</a></li>
+        <li><a href="#" class="channel-link" data-channel="shopping">Shopping</a></li>
+        <li><a href="#" class="channel-link" data-channel="health">Health</a></li>
+        <li><a href="#" class="channel-link" data-channel="kids">Kids Only</a></li>
+        <li class="channel-separator"></li>
+        <li><a href="#" class="channel-link branded cnn" data-channel="cnn">CNN.com</a></li>
+        <li><a href="#" class="channel-link branded hbo" data-channel="hbo">HBO</a></li>
+        <li><a href="#" class="channel-link branded wb" data-channel="wb">Warner Bros.</a></li>
+        <li><a href="#" class="channel-link branded time" data-channel="time">TIME</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- BREAKING NEWS TICKER — CNN WIRE (Synergy Track 2)                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="news-ticker" class="news-ticker">
+    <div class="ticker-label">
+      <span class="ticker-cnn">CNN</span> BREAKING
+    </div>
+    <div class="ticker-track">
+      <div class="ticker-content" id="ticker-content">
+        <!-- JS-populated ticker items -->
+      </div>
+    </div>
+    <div class="ticker-time" id="ticker-time"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- MAIN PORTAL BODY                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main id="portal-main" class="portal-main">
+
+    <!-- LEFT SIDEBAR — AIM Integration Widget -->
+    <aside id="aim-sidebar" class="aim-sidebar">
+      <div class="aim-header">
+        <div class="aim-logo">
+          <span class="aim-icon">💬</span>
+          <span class="aim-title">AIM</span>
+        </div>
+        <div class="aim-controls">
+          <button class="aim-ctrl-btn" id="aim-minimize" title="Minimize">−</button>
+          <button class="aim-ctrl-btn" id="aim-settings" title="Settings">⚙</button>
+        </div>
+      </div>
+      <div class="aim-status-bar">
+        <span class="aim-user-icon online">●</span>
+        <span class="aim-user-name">SurfDude2001</span>
+        <select id="aim-status-select" class="aim-status-select" title="Set status">
+          <option value="online">Online</option>
+          <option value="away">Away</option>
+          <option value="idle">Idle</option>
+        </select>
+      </div>
+      <div class="aim-body" id="aim-body">
+        <div class="aim-category" data-cat="buddies">
+          <div class="aim-cat-header" data-toggle="buddies">
+            <span class="aim-cat-arrow">▾</span>
+            Buddies (4/7)
+          </div>
+          <ul class="aim-buddy-list" id="buddy-list-buddies">
+            <li class="aim-buddy online"><span class="buddy-status">●</span><span class="buddy-name">MovieFan99</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy online"><span class="buddy-status">●</span><span class="buddy-name">CableGuy_NYC</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy away"><span class="buddy-status">●</span><span class="buddy-name">JennyX2001</span><span class="buddy-idle">15m</span></li>
+            <li class="aim-buddy online"><span class="buddy-status">●</span><span class="buddy-name">TechWiz42</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">DarkKnight_Fan</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">sk8rboi</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">SoccerMom55</span><span class="buddy-idle"></span></li>
+          </ul>
+        </div>
+        <div class="aim-category" data-cat="family">
+          <div class="aim-cat-header" data-toggle="family">
+            <span class="aim-cat-arrow">▾</span>
+            Family (1/3)
+          </div>
+          <ul class="aim-buddy-list" id="buddy-list-family">
+            <li class="aim-buddy online"><span class="buddy-status">●</span><span class="buddy-name">MomOnline</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">BroDawg</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">DadRocks</span><span class="buddy-idle"></span></li>
+          </ul>
+        </div>
+        <div class="aim-category" data-cat="coworkers">
+          <div class="aim-cat-header" data-toggle="coworkers">
+            <span class="aim-cat-arrow">▸</span>
+            Co-Workers (0/2)
+          </div>
+          <ul class="aim-buddy-list collapsed" id="buddy-list-coworkers">
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">BossMan_Steve</span><span class="buddy-idle"></span></li>
+            <li class="aim-buddy offline"><span class="buddy-status">○</span><span class="buddy-name">OfficeJim</span><span class="buddy-idle"></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="aim-footer">
+        <button class="aim-send-btn" id="aim-send-im" title="Send Instant Message">Send IM</button>
+        <button class="aim-chat-btn" id="aim-chat-room" title="Chat Rooms">Chat</button>
+      </div>
+
+      <!-- AIM Chat Window (Initially Hidden) -->
+      <div id="aim-chat-window" class="aim-chat-window hidden">
+        <div class="aim-chat-header">
+          <span class="aim-chat-title" id="aim-chat-buddy-name">MovieFan99</span>
+          <button class="aim-chat-close" id="aim-chat-close">✕</button>
+        </div>
+        <div class="aim-chat-messages" id="aim-chat-messages">
+          <div class="chat-msg incoming">
+            <span class="chat-name">MovieFan99:</span> Hey! Did you see the new Harry Potter trailer? 🧙
+          </div>
+          <div class="chat-msg incoming">
+            <span class="chat-name">MovieFan99:</span> It's on the WB page right now!
+          </div>
+        </div>
+        <div class="aim-chat-input-area">
+          <input type="text" id="aim-chat-input" class="aim-chat-input" placeholder="Type a message...">
+          <button id="aim-chat-send" class="aim-chat-send-btn">Send</button>
+        </div>
+      </div>
+
+      <!-- Sidebar Quick Links -->
+      <div class="sidebar-quicklinks">
+        <h4 class="sidebar-section-title">Quick Links</h4>
+        <ul class="quick-link-list">
+          <li><a href="#">📰 Today's News</a></li>
+          <li><a href="#">🌤 Weather</a></li>
+          <li><a href="#">📈 Stock Quotes</a></li>
+          <li><a href="#">🔮 Horoscopes</a></li>
+          <li><a href="#">🎮 Games</a></li>
+          <li><a href="#">🗺 MapQuest</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- CENTER CONTENT AREA -->
+    <div id="content-area" class="content-area">
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SYNERGY TRACK 1 — UNIFIED AD INVENTORY / MONETIZATION          -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <section id="track1-ad-banner-top" class="ad-banner-zone top" aria-label="Advertisement">
+        <div class="ad-container leaderboard">
+          <div class="ad-badge">ADVERTISEMENT</div>
+          <div class="ad-content" id="ad-leaderboard">
+            <div class="ad-creative leaderboard-ad">
+              <div class="ad-left-brand">
+                <span class="ad-brand-aol">AOL</span> <span class="ad-x">×</span> <span class="ad-brand-tw">TIME WARNER</span>
+              </div>
+              <div class="ad-center-copy">
+                <div class="ad-headline">The Future is Connected.</div>
+                <div class="ad-sub">Get AOL Plus + HBO + TIME — One subscription, unlimited worlds.</div>
+              </div>
+              <div class="ad-cta-area">
+                <button class="ad-cta-btn" id="ad-cta-learn">Learn More »</button>
+              </div>
+              <div class="ad-metrics-tag">CPM Lift Test A/B — Cohort 7a</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HERO / WELCOME SECTION -->
+      <section id="hero-section" class="hero-section">
+        <div class="hero-content">
+          <div class="hero-main">
+            <div class="hero-welcome-box">
+              <h1 id="hero-greeting" class="hero-greeting">Good Evening, SurfDude2001</h1>
+              <p class="hero-date" id="hero-date"></p>
+              <div class="hero-weather">
+                <span class="weather-icon">🌙</span>
+                <span class="weather-info">New York, NY — 68°F Partly Cloudy</span>
+              </div>
+            </div>
+            <div class="hero-featured">
+              <div class="featured-story" id="featured-story">
+                <div class="featured-badge">FEATURED STORY</div>
+                <div class="featured-image-container">
+                  <div class="featured-image" id="featured-img">
+                    <div class="featured-img-placeholder">
+                      <span class="placeholder-icon">📡</span>
+                    </div>
+                  </div>
+                </div>
+                <h2 class="featured-headline" id="featured-headline">AOL Time Warner Merger: A New Era for Digital Media</h2>
+                <p class="featured-excerpt">The landmark $164 billion deal promises to unite the world's largest internet service provider with the most powerful media conglomerate. What does it mean for 30 million AOL subscribers?</p>
+                <a href="#" class="featured-read-more" id="featured-readmore">Read Full Story »</a>
+                <span class="featured-source">TIME.com Exclusive</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-aside">
+            <div class="you-got-mail" id="mail-widget">
+              <div class="mail-icon-big">✉</div>
+              <div class="mail-text">You've Got Mail!</div>
+              <div class="mail-count">3 new messages</div>
+              <button class="mail-open-btn" id="open-mail-btn">Open Mailbox</button>
+            </div>
+            <div class="quick-stats">
+              <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <div class="stat-detail">
+                  <span class="stat-label">DOW</span>
+                  <span class="stat-value up">10,542 ▲ +68</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <div class="stat-detail">
+                  <span class="stat-label">NASDAQ</span>
+                  <span class="stat-value down">2,291 ▼ −34</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <div class="stat-detail">
+                  <span class="stat-label">AOL (TWX)</span>
+                  <span class="stat-value up">$52.80 ▲ +1.25</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SYNERGY TRACK 2 — CONTENT DISTRIBUTION PILOTS                  -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="track2-container">
+        <div class="track-badge">SYNERGY TRACK 2 — Content Distribution Pilots</div>
+
+        <!-- MODULE A: CNN REAL-TIME NEWS WIRE -->
+        <section id="track2-cnn-newswire" class="content-module cnn-module">
+          <div class="module-header cnn-header">
+            <div class="module-brand">
+              <span class="brand-logo cnn-logo">CNN</span>
+              <span class="brand-label">.com — Real-Time News Wire</span>
+            </div>
+            <div class="module-controls">
+              <button class="module-ctrl refresh" id="cnn-refresh" title="Refresh Headlines">↻</button>
+              <span class="module-timestamp" id="cnn-timestamp">Updated: --:--</span>
+            </div>
+          </div>
+          <div class="module-body cnn-body">
+            <div class="cnn-main-story" id="cnn-main-story">
+              <div class="cnn-story-image">
+                <div class="cnn-img-placeholder">
+                  <span class="placeholder-icon">🌍</span>
+                  <span class="img-caption">AP Photo</span>
+                </div>
+              </div>
+              <div class="cnn-story-content">
+                <span class="cnn-category">U.S. NEWS</span>
+                <h3 class="cnn-headline">Bush Administration Unveils Economic Stimulus Package; Markets React</h3>
+                <p class="cnn-excerpt">President Bush outlined a sweeping tax cut plan today aimed at boosting consumer confidence amid growing recession fears. Congressional leaders responded with measured optimism...</p>
+                <a href="#" class="cnn-read-more">Full Story »</a>
+              </div>
+            </div>
+            <div class="cnn-headline-list" id="cnn-headlines">
+              <div class="cnn-headline-item">
+                <span class="cnn-cat-dot world">●</span>
+                <a href="#" class="headline-link">Middle East Peace Talks Resume in Cairo After Three-Week Halt</a>
+                <span class="headline-time">2h ago</span>
+              </div>
+              <div class="cnn-headline-item">
+                <span class="cnn-cat-dot tech">●</span>
+                <a href="#" class="headline-link">Microsoft Launches Windows XP: "The Most Secure Windows Ever"</a>
+                <span class="headline-time">3h ago</span>
+              </div>
+              <div class="cnn-headline-item">
+                <span class="cnn-cat-dot business">●</span>
+                <a href="#" class="headline-link">Dot-Com Shakeout Continues: 500+ Startups Shut Down This Year</a>
+                <span class="headline-time">4h ago</span>
+              </div>
+              <div class="cnn-headline-item">
+                <span class="cnn-cat-dot sports">●</span>
+                <a href="#" class="headline-link">Barry Bonds Hits 70th Home Run, Approaches All-Time Record</a>
+                <span class="headline-time">5h ago</span>
+              </div>
+              <div class="cnn-headline-item">
+                <span class="cnn-cat-dot science">●</span>
+                <a href="#" class="headline-link">NASA: International Space Station Receives First Permanent Crew</a>
+                <span class="headline-time">6h ago</span>
+              </div>
+            </div>
+          </div>
+          <div class="module-footer cnn-footer">
+            <a href="#" class="module-footer-link">More CNN Headlines »</a>
+            <span class="module-synergy-tag">📡 Live Feed — ≤12KB payload</span>
+          </div>
+        </section>
+
+        <!-- MODULE B: WARNER BROS. & HBO ENTERTAINMENT SHOWCASE -->
+        <section id="track2-entertainment" class="content-module entertainment-module">
+          <div class="module-header ent-header">
+            <div class="module-brand">
+              <span class="brand-logo wb-logo">WB</span>
+              <span class="brand-divider">&</span>
+              <span class="brand-logo hbo-logo">HBO</span>
+              <span class="brand-label">Entertainment Showcase</span>
+            </div>
+            <div class="module-tabs">
+              <button class="mod-tab active" data-tab="movies" id="tab-movies">Now Playing</button>
+              <button class="mod-tab" data-tab="hbo" id="tab-hbo">HBO Original</button>
+              <button class="mod-tab" data-tab="music" id="tab-music">Music</button>
+            </div>
+          </div>
+          <div class="module-body ent-body">
+            <!-- Movies Tab -->
+            <div class="ent-tab-content active" id="tab-content-movies">
+              <div class="ent-showcase">
+                <div class="ent-feature-card">
+                  <div class="ent-poster">
+                    <div class="poster-placeholder hp">
+                      <span class="poster-icon">⚡</span>
+                      <span class="poster-title-overlay">Harry Potter</span>
+                    </div>
+                    <div class="poster-badge">IN THEATERS</div>
+                  </div>
+                  <div class="ent-info">
+                    <h3 class="ent-title">Harry Potter and the Sorcerer's Stone</h3>
+                    <div class="ent-meta">
+                      <span class="ent-rating">PG</span>
+                      <span class="ent-year">2001</span>
+                      <span class="ent-runtime">152 min</span>
+                    </div>
+                    <p class="ent-desc">An orphaned boy enrolls in a school of wizardry, where he learns the truth about himself, his family and the terrible evil that haunts the magical world.</p>
+                    <div class="ent-actions">
+                      <button class="ent-btn primary" id="btn-hp-trailer">🎬 Watch Trailer</button>
+                      <button class="ent-btn secondary" id="btn-hp-stills">📸 Production Stills</button>
+                      <button class="ent-btn secondary" id="btn-hp-audio">🎤 Cast Interview</button>
+                    </div>
+                    <div class="ent-bandwidth-note">
+                      <span class="bw-icon">⚡</span>
+                      Audio: 180KB · Stills: 45KB each · Trailer: Cable required
+                    </div>
+                  </div>
+                </div>
+                <div class="ent-upcoming-strip">
+                  <h4 class="strip-title">Coming Soon from Warner Bros.</h4>
+                  <div class="strip-items">
+                    <div class="strip-item">
+                      <div class="strip-poster"><span class="strip-icon">🧝</span></div>
+                      <span class="strip-name">Lord of the Rings</span>
+                      <span class="strip-date">Dec 2001</span>
+                    </div>
+                    <div class="strip-item">
+                      <div class="strip-poster"><span class="strip-icon">🦇</span></div>
+                      <span class="strip-name">Ocean's Eleven</span>
+                      <span class="strip-date">Dec 2001</span>
+                    </div>
+                    <div class="strip-item">
+                      <div class="strip-poster"><span class="strip-icon">🐕</span></div>
+                      <span class="strip-name">Cats & Dogs</span>
+                      <span class="strip-date">Jul 2001</span>
+                    </div>
+                    <div class="strip-item">
+                      <div class="strip-poster"><span class="strip-icon">👻</span></div>
+                      <span class="strip-name">Training Day</span>
+                      <span class="strip-date">Oct 2001</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- HBO Tab -->
+            <div class="ent-tab-content" id="tab-content-hbo">
+              <div class="ent-showcase">
+                <div class="ent-feature-card">
+                  <div class="ent-poster">
+                    <div class="poster-placeholder sopranos">
+                      <span class="poster-icon">🎭</span>
+                      <span class="poster-title-overlay">The Sopranos</span>
+                    </div>
+                    <div class="poster-badge hbo-badge">HBO ORIGINAL</div>
+                  </div>
+                  <div class="ent-info">
+                    <h3 class="ent-title">The Sopranos — Season 3</h3>
+                    <div class="ent-meta">
+                      <span class="ent-rating">TV-MA</span>
+                      <span class="ent-year">2001</span>
+                      <span class="ent-runtime">Sundays 9PM</span>
+                    </div>
+                    <p class="ent-desc">New Jersey mob boss Tony Soprano deals with personal and professional issues in his home and business life that affect his mental state, leading him to seek psychiatric counseling.</p>
+                    <div class="ent-actions">
+                      <button class="ent-btn primary" id="btn-sopranos-guide">📋 Episode Guide</button>
+                      <button class="ent-btn secondary" id="btn-sopranos-audio">🎤 Creator Interview</button>
+                      <button class="ent-btn secondary" id="btn-sopranos-stills">📸 Behind the Scenes</button>
+                    </div>
+                    <div class="ent-bandwidth-note">
+                      <span class="bw-icon">⚡</span>
+                      Episode Guide: 8KB · Audio Clips: 220KB · Photos: 35KB each
+                    </div>
+                  </div>
+                </div>
+                <div class="hbo-schedule-strip">
+                  <h4 class="strip-title">Also on HBO This Week</h4>
+                  <div class="hbo-schedule-grid">
+                    <div class="hbo-show"><span class="hbo-time">Sun 10PM</span><span class="hbo-name">Sex and the City</span></div>
+                    <div class="hbo-show"><span class="hbo-time">Mon 9PM</span><span class="hbo-name">Band of Brothers</span></div>
+                    <div class="hbo-show"><span class="hbo-time">Wed 8PM</span><span class="hbo-name">Curb Your Enthusiasm</span></div>
+                    <div class="hbo-show"><span class="hbo-time">Sat 8PM</span><span class="hbo-name">HBO Boxing</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Music Tab -->
+            <div class="ent-tab-content" id="tab-content-music">
+              <div class="ent-showcase">
+                <div class="ent-feature-card">
+                  <div class="ent-poster">
+                    <div class="poster-placeholder music">
+                      <span class="poster-icon">🎵</span>
+                      <span class="poster-title-overlay">WB Records</span>
+                    </div>
+                  </div>
+                  <div class="ent-info">
+                    <h3 class="ent-title">Warner Bros. Records — New Releases</h3>
+                    <div class="ent-meta">
+                      <span class="ent-year">Fall 2001</span>
+                    </div>
+                    <div class="music-list">
+                      <div class="music-item">
+                        <span class="music-play" title="Play 30s clip">▶</span>
+                        <span class="music-artist">Linkin Park</span> — <span class="music-track">Hybrid Theory</span>
+                        <span class="music-clip">30s clip (85KB)</span>
+                      </div>
+                      <div class="music-item">
+                        <span class="music-play" title="Play 30s clip">▶</span>
+                        <span class="music-artist">Red Hot Chili Peppers</span> — <span class="music-track">By the Way</span>
+                        <span class="music-clip">30s clip (90KB)</span>
+                      </div>
+                      <div class="music-item">
+                        <span class="music-play" title="Play 30s clip">▶</span>
+                        <span class="music-artist">Madonna</span> — <span class="music-track">Music</span>
+                        <span class="music-clip">30s clip (88KB)</span>
+                      </div>
+                    </div>
+                    <div class="ent-bandwidth-note">
+                      <span class="bw-icon">⚡</span>
+                      Audio clips optimized for 56k — RealAudio format
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="module-footer ent-footer">
+            <a href="#" class="module-footer-link">More Entertainment »</a>
+            <span class="module-synergy-tag">🎬 Multimedia Hub — Low-BW optimized</span>
+          </div>
+        </section>
+
+        <!-- MODULE C: TIME PUBLISHING DIGEST -->
+        <section id="track2-time-digest" class="content-module time-module">
+          <div class="module-header time-header">
+            <div class="module-brand">
+              <span class="brand-logo time-logo">TIME</span>
+              <span class="brand-label">Publishing Digest</span>
+            </div>
+            <div class="module-controls">
+              <span class="time-issue">This Week's Issue — Oct 15, 2001</span>
+            </div>
+          </div>
+          <div class="module-body time-body">
+            <div class="time-articles">
+              <div class="time-article featured-article">
+                <div class="time-cover">
+                  <div class="time-cover-placeholder">
+                    <div class="time-cover-frame">
+                      <span class="time-cover-icon">🌐</span>
+                      <span class="time-cover-title">THE<br>MERGER</span>
+                      <span class="time-cover-sub">AOL + TIME WARNER</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="time-article-info">
+                  <span class="time-section">COVER STORY</span>
+                  <h3 class="time-article-title">The Making of the Mega-Merger: Inside AOL Time Warner</h3>
+                  <p class="time-excerpt">How Steve Case and Gerald Levin engineered the largest corporate marriage in history—and the challenges that lie ahead for the new media colossus...</p>
+                  <div class="time-article-meta">
+                    <span class="time-author">By Joshua Cooper Ramo</span>
+                    <span class="time-read">12 min read • 28KB</span>
+                  </div>
+                  <a href="#" class="time-read-link">Read Article »</a>
+                </div>
+              </div>
+              <div class="time-article-list">
+                <div class="time-article-row">
+                  <span class="time-row-section">BUSINESS</span>
+                  <a href="#" class="time-row-title">The New Economy's Reality Check</a>
+                  <span class="time-row-size">6KB</span>
+                </div>
+                <div class="time-article-row">
+                  <span class="time-row-section">NATION</span>
+                  <a href="#" class="time-row-title">America's Broadband Divide: Who Gets Connected?</a>
+                  <span class="time-row-size">8KB</span>
+                </div>
+                <div class="time-article-row">
+                  <span class="time-row-section">SCIENCE</span>
+                  <a href="#" class="time-row-title">Mapping the Human Genome: Year One</a>
+                  <span class="time-row-size">7KB</span>
+                </div>
+                <div class="time-article-row">
+                  <span class="time-row-section">CULTURE</span>
+                  <a href="#" class="time-row-title">Harry Potter: The Boy Who Ruled Hollywood</a>
+                  <span class="time-row-size">5KB</span>
+                </div>
+              </div>
+            </div>
+            <div class="time-subscribe-box">
+              <div class="subscribe-icon">📖</div>
+              <div class="subscribe-text">
+                <strong>Subscribe to TIME Digital</strong>
+                <span>Get full online access + print delivery</span>
+              </div>
+              <div class="subscribe-price">$3.99<span>/mo</span></div>
+              <button class="subscribe-btn" id="time-subscribe-btn">Subscribe »</button>
+            </div>
+          </div>
+          <div class="module-footer time-footer">
+            <a href="#" class="module-footer-link">Full TIME.com Archive »</a>
+            <span class="module-synergy-tag">📰 Curated Digest — ≤28KB/article</span>
+          </div>
+        </section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SYNERGY TRACK 1 (continued) — MID-CONTENT AD ZONE              -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <section id="track1-ad-mid" class="ad-banner-zone mid" aria-label="Advertisement">
+        <div class="ad-container rectangle">
+          <div class="ad-badge">ADVERTISEMENT</div>
+          <div class="ad-content" id="ad-rectangle">
+            <div class="ad-creative rectangle-ad">
+              <div class="ad-cnn-promo">
+                <span class="ad-promo-brand">CNN</span>
+                <span class="ad-promo-text">Breaking News, Anytime</span>
+              </div>
+              <div class="ad-promo-plus">+</div>
+              <div class="ad-aol-promo">
+                <span class="ad-promo-brand">AOL</span>
+                <span class="ad-promo-text">Always Connected</span>
+              </div>
+              <div class="ad-promo-tagline">News at the Speed of IM. Only on AOL.</div>
+              <div class="ad-metrics-tag">CPM Lift Test — Cross-brand awareness cohort 3b</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SYNERGY TRACK 3 — GATED SUBSCRIBER CROSS-SELL                  -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <section id="track3-cross-sell" class="content-module crosssell-module">
+        <div class="module-header crosssell-header">
+          <div class="module-brand">
+            <span class="brand-logo crosssell-logo">★</span>
+            <span class="brand-label">Exclusive Member Offers</span>
+          </div>
+          <div class="crosssell-gate-badge">
+            <span class="gate-icon">🔒</span>
+            <span class="gate-text">SYNERGY TRACK 3 — Subscriber Cross-Sell (Gated)</span>
+          </div>
+        </div>
+        <div class="module-body crosssell-body">
+          <div class="crosssell-banner">
+            <div class="crosssell-headline">
+              <span class="crosssell-star">⭐</span>
+              AOL Members Save Big on Time Warner Services
+            </div>
+            <div class="crosssell-sub">Exclusive bundled pricing for AOL subscribers. Limited time offers, activation required.</div>
+          </div>
+          <div class="crosssell-offers" id="crosssell-offers">
+            <div class="crosssell-card" id="offer-hbo">
+              <div class="offer-badge">MOST POPULAR</div>
+              <div class="offer-icon">📺</div>
+              <h4 class="offer-title">HBO + AOL Bundle</h4>
+              <div class="offer-price">
+                <span class="price-was">$24.95/mo</span>
+                <span class="price-now">$17.95/mo</span>
+              </div>
+              <p class="offer-desc">Add HBO to your cable package at a special AOL-only rate. Includes HBO, HBO2, and HBO Family.</p>
+              <div class="offer-requirements">
+                <span class="req-icon">ℹ</span> Requires AOL subscription + Time Warner Cable service area
+              </div>
+              <button class="offer-btn" id="offer-hbo-btn">Add to My Account »</button>
+              <div class="offer-gate-status">
+                <span class="gate-check">✓</span> Eligible — AOL account verified
+              </div>
+            </div>
+            <div class="crosssell-card" id="offer-time">
+              <div class="offer-icon">📰</div>
+              <h4 class="offer-title">TIME + AOL Bundle</h4>
+              <div class="offer-price">
+                <span class="price-was">$7.99/mo</span>
+                <span class="price-now">$3.99/mo</span>
+              </div>
+              <p class="offer-desc">Print + Digital subscription to TIME magazine. Plus Sports Illustrated digital access.</p>
+              <div class="offer-requirements">
+                <span class="req-icon">ℹ</span> Requires active AOL subscription
+              </div>
+              <button class="offer-btn" id="offer-time-btn">Subscribe Now »</button>
+              <div class="offer-gate-status">
+                <span class="gate-check">✓</span> Eligible — AOL account verified
+              </div>
+            </div>
+            <div class="crosssell-card" id="offer-rr">
+              <div class="offer-badge upgrade">UPGRADE</div>
+              <div class="offer-icon">🚀</div>
+              <h4 class="offer-title">Road Runner Broadband</h4>
+              <div class="offer-price">
+                <span class="price-was">$49.95/mo</span>
+                <span class="price-now">$39.95/mo</span>
+              </div>
+              <p class="offer-desc">Upgrade from dial-up to Road Runner cable internet. Up to 50x faster! Keep your AOL email & screen name.</p>
+              <div class="offer-requirements">
+                <span class="req-icon">ℹ</span> Time Warner Cable service area required — <a href="#" class="check-avail">Check availability</a>
+              </div>
+              <button class="offer-btn upgrade-btn" id="offer-rr-btn">Check Availability »</button>
+              <div class="offer-gate-status pending">
+                <span class="gate-check">⏳</span> Availability check required
+              </div>
+            </div>
+          </div>
+          <div class="crosssell-metrics">
+            <div class="metrics-label">📊 Cross-Sell Module Performance Dashboard (Internal)</div>
+            <div class="metrics-grid">
+              <div class="metric"><span class="metric-name">Impressions</span><span class="metric-value" id="metric-impressions">0</span></div>
+              <div class="metric"><span class="metric-name">Click-through</span><span class="metric-value" id="metric-ctr">0.0%</span></div>
+              <div class="metric"><span class="metric-name">Conversions</span><span class="metric-value" id="metric-conv">0</span></div>
+              <div class="metric"><span class="metric-name">Gate Status</span><span class="metric-value gate-open" id="metric-gate">OPEN — Year 1 Pilot</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="module-footer crosssell-footer">
+          <a href="#" class="module-footer-link">View All Member Benefits »</a>
+          <span class="module-synergy-tag">🔒 Gated — Board approval req'd for Year 2 expansion</span>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SYNERGY TRACK 1 (continued) — BOTTOM AD ZONE                   -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <section id="track1-ad-bottom" class="ad-banner-zone bottom" aria-label="Advertisement">
+        <div class="ad-container banner">
+          <div class="ad-badge">ADVERTISEMENT</div>
+          <div class="ad-content" id="ad-bottom-banner">
+            <div class="ad-creative bottom-ad">
+              <span class="ad-bottom-text">
+                🎬 <strong>Warner Bros.</strong> presents: Harry Potter and the Sorcerer's Stone — <em>In Theaters Everywhere November 16</em> — 
+                <a href="#" class="ad-link">Get Tickets on AOL MovieFone »</a>
+              </span>
+              <div class="ad-metrics-tag">CPM Lift Test — Entertainment vertical cohort 2a</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /content-area -->
+
+    <!-- RIGHT SIDEBAR -->
+    <aside id="right-sidebar" class="right-sidebar">
+      <div class="sidebar-section" id="aol-keyword-box">
+        <h4 class="sidebar-section-title">AOL Keyword</h4>
+        <div class="keyword-input-group">
+          <input type="text" id="keyword-input" class="keyword-input" placeholder="Enter keyword...">
+          <button class="keyword-go-btn" id="keyword-go">Go</button>
+        </div>
+        <div class="keyword-popular">
+          <span class="keyword-label">Popular:</span>
+          <a href="#" class="keyword-tag">Harry Potter</a>
+          <a href="#" class="keyword-tag">CNN</a>
+          <a href="#" class="keyword-tag">HBO</a>
+          <a href="#" class="keyword-tag">Shopping</a>
+        </div>
+      </div>
+
+      <div class="sidebar-section" id="member-perks">
+        <h4 class="sidebar-section-title">Member Perks</h4>
+        <div class="perk-item">🎁 Free AOL 7.0 Upgrade</div>
+        <div class="perk-item">🎫 MovieFone Discounts</div>
+        <div class="perk-item">📰 TIME Digital Trial</div>
+        <div class="perk-item">🎮 Free Games Channel</div>
+      </div>
+
+      <div class="sidebar-section" id="poll-widget">
+        <h4 class="sidebar-section-title">Today's Poll</h4>
+        <p class="poll-question">Will the AOL–Time Warner merger benefit consumers?</p>
+        <div class="poll-options">
+          <label class="poll-option">
+            <input type="radio" name="poll" value="yes"> Yes, more content & value
+          </label>
+          <label class="poll-option">
+            <input type="radio" name="poll" value="no"> No, too much consolidation
+          </label>
+          <label class="poll-option">
+            <input type="radio" name="poll" value="unsure"> Too early to tell
+          </label>
+        </div>
+        <button class="poll-vote-btn" id="poll-vote">Vote</button>
+        <div class="poll-results hidden" id="poll-results">
+          <div class="poll-bar-container">
+            <div class="poll-bar-label">Yes</div><div class="poll-bar" style="width:42%">42%</div>
+          </div>
+          <div class="poll-bar-container">
+            <div class="poll-bar-label">No</div><div class="poll-bar negative" style="width:31%">31%</div>
+          </div>
+          <div class="poll-bar-container">
+            <div class="poll-bar-label">Unsure</div><div class="poll-bar neutral" style="width:27%">27%</div>
+          </div>
+          <span class="poll-total">14,328 votes</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section" id="today-on-aol">
+        <h4 class="sidebar-section-title">Today on AOL</h4>
+        <ul class="today-list">
+          <li><a href="#">🏈 NFL Week 6 Predictions</a></li>
+          <li><a href="#">💰 Tax Tips for 2001</a></li>
+          <li><a href="#">🍳 Fall Recipes from Food.com</a></li>
+          <li><a href="#">🎃 Halloween Costume Ideas</a></li>
+          <li><a href="#">❤ Love@AOL Personals</a></li>
+        </ul>
+      </div>
+    </aside>
+
+  </main><!-- /portal-main -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- PORTAL FOOTER                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <footer id="portal-footer" class="portal-footer">
+    <div class="footer-top">
+      <div class="footer-brand-strip">
+        <span class="footer-brand">AOL</span>
+        <span class="footer-brand">CNN</span>
+        <span class="footer-brand">HBO</span>
+        <span class="footer-brand">Warner Bros.</span>
+        <span class="footer-brand">TIME</span>
+        <span class="footer-brand">Turner Broadcasting</span>
+        <span class="footer-brand">Netscape</span>
+        <span class="footer-brand">CompuServe</span>
+        <span class="footer-brand">MapQuest</span>
+        <span class="footer-brand">Winamp</span>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">About AOL Time Warner</a>
+      <a href="#">Investor Relations</a>
+      <a href="#">Careers</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Help</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Advertise with Us</a>
+    </div>
+    <div class="footer-legal">
+      <p>© 2001 AOL Time Warner Inc. All Rights Reserved. AOL, the AOL logo, AIM, and the Triangle logo are registered trademarks of America Online, Inc.</p>
+      <p>Time Warner properties including CNN, HBO, Warner Bros., TIME, and Turner Broadcasting System are trademarks of Time Warner Inc.</p>
+      <p class="footer-keyword">AOL Keyword: <strong>TimeWarner</strong> | Need help? Call 1-800-827-6364</p>
+    </div>
+    <div class="footer-synergy-strip">
+      <div class="synergy-info">
+        <span class="synergy-label">⚙ Portal Build Info</span>
+        <span class="synergy-detail">Staged Convergence Model v1.0 — Year 1 "Show Me" Phase</span>
+        <span class="synergy-detail">Tracks Active: T1 (Ad Inventory) ✓ | T2 (Content Pilots) ✓ | T3 (Cross-Sell) ⚡ Gated Pilot</span>
+        <span class="synergy-detail">Bandwidth Mode: 56k Optimized | Page Weight Target: ≤150KB</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-overlay hidden">
+    <div class="modal-window login-modal">
+      <div class="modal-header">
+        <div class="modal-logo">
+          <div class="logo-triangle small"></div>
+          <span>Sign On to AOL</span>
+        </div>
+        <button class="modal-close" id="login-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="login-form">
+          <div class="form-group">
+            <label for="login-screenname">Screen Name</label>
+            <input type="text" id="login-screenname" value="SurfDude2001" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" value="••••••••" class="form-input">
+          </div>
+          <div class="form-checkbox">
+            <input type="checkbox" id="login-save" checked>
+            <label for="login-save">Save password</label>
+          </div>
+          <div class="login-location">
+            <label for="login-location-select">Location:</label>
+            <select id="login-location-select" class="form-select">
+              <option>Home (56k Modem)</option>
+              <option>Work (LAN)</option>
+              <option>Road Runner Cable</option>
+            </select>
+          </div>
+          <button class="login-submit" id="login-submit">SIGN ON</button>
+          <div class="login-status hidden" id="login-status">
+            <div class="login-progress">
+              <div class="progress-bar" id="login-progress-bar"></div>
+            </div>
+            <span class="login-status-text" id="login-status-text">Connecting...</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#">New Member? Sign Up</a>
+        <a href="#">Forgot Password?</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
